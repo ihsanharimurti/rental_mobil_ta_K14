@@ -1,0 +1,186 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Nov 29, 2023 at 03:40 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `rental_mobil_k14`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer`
+--
+
+CREATE TABLE `customer` (
+  `id_customer` int(11) NOT NULL,
+  `customer` varchar(255) NOT NULL,
+  `alamat_customer` varchar(255) NOT NULL,
+  `no_hp_cust` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`id_customer`, `customer`, `alamat_customer`, `no_hp_cust`) VALUES
+(1, 'John Doe', '123 Main Street', '555-555-5555'),
+(2, 'Jane Doe', '456 Elm Street', '444-444-4444'),
+(3, 'Peter Jones', '789 Oak Street', '333-333-3333');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `karyawan`
+--
+
+CREATE TABLE `karyawan` (
+  `id_karyawan` int(11) NOT NULL,
+  `nama_karyawan` varchar(255) NOT NULL,
+  `alamat_karyawan` varchar(255) NOT NULL,
+  `no_hp_karyawan` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `karyawan`
+--
+
+INSERT INTO `karyawan` (`id_karyawan`, `nama_karyawan`, `alamat_karyawan`, `no_hp_karyawan`) VALUES
+(1, 'Abdul', '321 Elm St', '555-1111'),
+(2, 'Ihsan', '654 Birch St', '555-2222'),
+(3, 'Zaqi', '987 Maple St', '555-3333');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mobil`
+--
+
+CREATE TABLE `mobil` (
+  `jenis_mobil` varchar(255) NOT NULL,
+  `plat_nomor` varchar(255) NOT NULL,
+  `id_mobil` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `mobil`
+--
+
+INSERT INTO `mobil` (`jenis_mobil`, `plat_nomor`, `id_mobil`) VALUES
+('Sedan', 'ABC123', 1),
+('SUV', 'XYZ789', 2),
+('Hatchback', '123XYZ', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rental`
+--
+
+CREATE TABLE `rental` (
+  `id_rental` int(11) NOT NULL,
+  `tanggal_transaksi` date NOT NULL,
+  `id_customer` int(11) NOT NULL,
+  `id_karyawan` int(11) NOT NULL,
+  `id_mobil` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `rental`
+--
+
+INSERT INTO `rental` (`id_rental`, `tanggal_transaksi`, `id_customer`, `id_karyawan`, `id_mobil`) VALUES
+(1, '2023-01-01', 1, 1, 1),
+(2, '2023-02-15', 2, 2, 2),
+(3, '2023-03-30', 3, 3, 3);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`id_customer`);
+
+--
+-- Indexes for table `karyawan`
+--
+ALTER TABLE `karyawan`
+  ADD PRIMARY KEY (`id_karyawan`);
+
+--
+-- Indexes for table `mobil`
+--
+ALTER TABLE `mobil`
+  ADD PRIMARY KEY (`id_mobil`);
+
+--
+-- Indexes for table `rental`
+--
+ALTER TABLE `rental`
+  ADD PRIMARY KEY (`id_rental`),
+  ADD KEY `ID_Customer` (`id_customer`),
+  ADD KEY `ID_Karyawan` (`id_karyawan`),
+  ADD KEY `ID_Mobil` (`id_mobil`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `karyawan`
+--
+ALTER TABLE `karyawan`
+  MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `mobil`
+--
+ALTER TABLE `mobil`
+  MODIFY `id_mobil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `rental`
+--
+ALTER TABLE `rental`
+  MODIFY `id_rental` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `rental`
+--
+ALTER TABLE `rental`
+  ADD CONSTRAINT `rental_ibfk_1` FOREIGN KEY (`ID_Customer`) REFERENCES `customer` (`ID_Customer`),
+  ADD CONSTRAINT `rental_ibfk_2` FOREIGN KEY (`ID_Karyawan`) REFERENCES `karyawan` (`ID_Karyawan`),
+  ADD CONSTRAINT `rental_ibfk_3` FOREIGN KEY (`ID_Mobil`) REFERENCES `mobil` (`ID_Mobil`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
